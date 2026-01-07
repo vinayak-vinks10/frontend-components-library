@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Mega Navbar</title>
+
+    <style>
+        /* ================= ROOT & THEMES ================= */
+        :root {
+            --bg: #0f2027;
+            --bg-glass: rgba(255, 255, 255, 0.08);
+            --text: #ffffff;
+            --accent: #00eaff;
+        }
+
+        body.light {
+            --bg: #f4f7fb;
+            --bg-glass: rgba(255, 255, 255, 0.6);
+            --text: #111;
+            --accent: #0072ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            min-height: 200vh;
+            background: var(--bg);
+            color: var(--text);
+            transition: 0.4s;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(15px);
+            border-radius: 18px;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.4s;
+            z-index: 1000;
+        }
+
+        nav.scrolled {
+            top: 0;
+            width: 100%;
+            border-radius: 0;
+        }
+
+        /* ================= LOGO ================= */
+        .logo {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        /* ================= MENU ================= */
+        .menu {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .menu li {
+            position: relative;
+            perspective: 800px;
+        }
+
+        .menu a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 15px;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        /* ================= 3D HOVER ================= */
+        .menu li:hover a {
+            transform: rotateX(10deg) rotateY(-10deg);
+            color: var(--accent);
+        }
+
+        /* ================= MEGA MENU ================= */
+        .mega-menu {
+            position: absolute;
+            top: 45px;
+            left: 0;
+            width: 600px;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 20px;
+            border-radius: 16px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: 0.4s;
+        }
+
+        body.light .mega-menu {
+            background: #ffffff;
+        }
+
+        .menu li:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .mega-menu h4 {
+            margin-bottom: 10px;
+            color: var(--accent);
+            font-size: 15px;
+        }
+
+        .mega-menu a {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        .mega-menu a:hover {
+            opacity: 1;
+        }
+
+        /* ================= ACTIONS ================= */
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .btn {
+            padding: 8px 18px;
+            background: linear-gradient(135deg, var(--accent), #0072ff);
+            border-radius: 30px;
+            color: #000;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* ================= HAMBURGER ================= */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 26px;
+            height: 3px;
+            background: var(--text);
+        }
+
+        /* ================= MOBILE MENU ================= */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            transform: translateX(100%);
+            transition: 0.4s;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-menu a {
+            font-size: 22px;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 900px) {
+
+            .menu,
+            .btn {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav id="navbar">
+        <div class="logo">FrontendUI</div>
+
+        <ul class="menu">
+            <li><a href="#">Home</a></li>
+
+            <li>
+                <a href="#">Components</a>
+                <div class="mega-menu">
+                    <div>
+                        <h4>UI</h4>
+                        <a href="#">Buttons</a>
+                        <a href="#">Cards</a>
+                        <a href="#">Forms</a>
+                    </div>
+                    <div>
+                        <h4>Navigation</h4>
+                        <a href="#">Navbar</a>
+                        <a href="#">Sidebar</a>
+                        <a href="#">Breadcrumb</a>
+                    </div>
+                    <div>
+                        <h4>Utilities</h4>
+                        <a href="#">Dark Mode</a>
+                        <a href="#">Loaders</a>
+                        <a href="#">Modals</a>
+                    </div>
+                </div>
+            </li>
+
+            <li><a href="#">Templates</a></li>
+            <li><a href="#">Docs</a></li>
+        </ul>
+
+        <div class="actions">
+            <div class="theme-toggle" id="themeToggle">🌙</div>
+            <div class="btn">Get Started</div>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#">Home</a>
+        <a href="#">Components</a>
+        <a href="#">Templates</a>
+        <a href="#">Docs</a>
+    </div>
+
+    <script>
+        /* ===== SCROLL EFFECT ===== */
+        const navbar = document.getElementById("navbar");
+        window.addEventListener("scroll", () => {
+            navbar.classList.toggle("scrolled", window.scrollY > 50);
+        });
+
+        /* ===== MOBILE MENU ===== */
+        const hamburger = document.getElementById("hamburger");
+        const mobileMenu = document.getElementById("mobileMenu");
+
+        hamburger.addEventListener("click", () => {
+            mobileMenu.classList.toggle("active");
+        });
+
+        /* ===== THEME TOGGLE ===== */
+        const toggle = document.getElementById("themeToggle");
+        const body = document.body;
+
+        if (localStorage.getItem("theme") === "light") {
+            body.classList.add("light");
+            toggle.textContent = "☀️";
+        }
+
+        toggle.addEventListener("click", () => {
+            body.classList.toggle("light");
+            const isLight = body.classList.contains("light");
+            toggle.textContent = isLight ? "☀️" : "🌙";
+            localStorage.setItem("theme", isLight ? "light" : "dark");
+        });
+    </script>
+
+</body>
+
+</html>
