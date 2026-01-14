@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Enterprise Secure Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --accent: #4fd1c5;
+            --danger: #ff6b6b;
+            --success: #1dd1a1;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        /* ===== Animated Background ===== */
+        .blob {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, var(--accent), transparent 70%);
+            filter: blur(120px);
+            animation: float 12s infinite alternate;
+        }
+
+        .blob.one {
+            top: -80px;
+            left: -80px
+        }
+
+        .blob.two {
+            bottom: -100px;
+            right: -100px;
+            animation-delay: 4s
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(0)
+            }
+
+            to {
+                transform: translateY(60px)
+            }
+        }
+
+        /* ===== Card ===== */
+        .card {
+            width: 420px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(22px);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45);
+            z-index: 2;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 26px
+        }
+
+        .header p {
+            opacity: 0.7;
+            font-size: 14px
+        }
+
+        /* ===== Input Group (FIXED) ===== */
+        .input-group {
+            position: relative;
+            margin-bottom: 26px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 16px 44px 16px 14px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            pointer-events: none;
+            transition: 0.3s;
+            background: transparent;
+        }
+
+        /* ✅ CORRECT FLOATING LOGIC */
+        .input-group input:not(:placeholder-shown)+label,
+        .input-group input:focus+label {
+            top: -8px;
+            font-size: 11px;
+            color: var(--accent);
+        }
+
+        /* ===== Icons ===== */
+        .icon {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .icon.valid {
+            color: var(--success)
+        }
+
+        .icon.invalid {
+            color: var(--danger)
+        }
+
+        .toggle {
+            cursor: pointer;
+        }
+
+        /* ===== Strength ===== */
+        .strength {
+            height: 6px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .strength span {
+            display: block;
+            height: 100%;
+            width: 0;
+            border-radius: 6px;
+            transition: 0.4s;
+        }
+
+        /* ===== Options ===== */
+        .options {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+        .options a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* ===== Button ===== */
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(135deg, #38ef7d, #11998e);
+            color: #003333;
+        }
+
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* ===== Loader ===== */
+        .loader {
+            display: none;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        /* ===== OTP ===== */
+        #otpForm {
+            display: none
+        }
+
+        /* ===== Caps Lock ===== */
+        .caps {
+            font-size: 12px;
+            color: var(--danger);
+            display: none;
+            margin-top: -12px;
+            margin-bottom: 12px;
+        }
+
+        /* ===== Dashboard ===== */
+        .dashboard {
+            display: none;
+            text-align: center;
+        }
+
+        .dashboard h2 {
+            margin-bottom: 10px
+        }
+
+        @media(max-width:480px) {
+            .card {
+                width: 90%;
+                padding: 30px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="blob one"></div>
+    <div class="blob two"></div>
+
+    <div class="card">
+
+        <div class="header">
+            <h1>Secure Login</h1>
+            <p>Enterprise Authentication System</p>
+        </div>
+
+        <!-- LOGIN -->
+        <form id="loginForm">
+
+            <div class="input-group">
+                <input type="email" id="email" placeholder=" " required>
+                <label>Email Address</label>
+                <span class="icon" id="emailIcon"></span>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="password" placeholder=" " required>
+                <label>Password</label>
+                <span class="icon toggle" onclick="togglePassword()">👁</span>
+            </div>
+
+            <div class="caps" id="caps">⚠ Caps Lock is ON</div>
+
+            <div class="strength"><span id="bar"></span></div>
+
+            <div class="options">
+                <label><input type="checkbox"> Remember me</label>
+                <a href="#">Forgot?</a>
+            </div>
+
+            <button id="loginBtn">Sign In</button>
+            <div class="loader" id="loader">Authenticating...</div>
+        </form>
+
+        <!-- OTP -->
+        <form id="otpForm">
+            <div class="input-group">
+                <input type="text" maxlength="6" placeholder=" " required>
+                <label>Enter OTP</label>
+            </div>
+            <button>Verify OTP</button>
+        </form>
+
+        <!-- DASHBOARD -->
+        <div class="dashboard" id="dashboard">
+            <h2>Welcome 👋</h2>
+            <p>Login Successful</p>
+        </div>
+
+    </div>
+
+    <script>
+        /* ===== Email Validation ===== */
+        const email = document.getElementById("email");
+        const emailIcon = document.getElementById("emailIcon");
+
+        email.addEventListener("input", () => {
+            if (email.value === "") {
+                emailIcon.textContent = "";
+                return;
+            }
+            if (email.checkValidity()) {
+                emailIcon.textContent = "✔";
+                emailIcon.className = "icon valid";
+            } else {
+                emailIcon.textContent = "✖";
+                emailIcon.className = "icon invalid";
+            }
+        });
+
+        /* ===== Password Strength ===== */
+        const password = document.getElementById("password");
+        const bar = document.getElementById("bar");
+
+        password.addEventListener("input", () => {
+            let s = 0, v = password.value;
+            if (v.length >= 8) s++;
+            if (/[A-Z]/.test(v)) s++;
+            if (/[0-9]/.test(v)) s++;
+            if (/[^A-Za-z0-9]/.test(v)) s++;
+            const colors = ["red", "orange", "yellow", "#48dbfb", "#1dd1a1"];
+            bar.style.width = (s * 25) + "%";
+            bar.style.background = colors[s];
+        });
+
+        /* ===== Caps Lock ===== */
+        password.addEventListener("keyup", e => {
+            document.getElementById("caps").style.display =
+                e.getModifierState("CapsLock") ? "block" : "none";
+        });
+
+        /* ===== Toggle Password ===== */
+        function togglePassword() {
+            password.type = password.type === "password" ? "text" : "password";
+        }
+
+        /* ===== Login Flow ===== */
+        document.getElementById("loginForm").addEventListener("submit", e => {
+            e.preventDefault();
+            document.getElementById("loginBtn").disabled = true;
+            document.getElementById("loader").style.display = "block";
+
+            setTimeout(() => {
+                document.getElementById("loginForm").style.display = "none";
+                document.getElementById("otpForm").style.display = "block";
+            }, 1500);
+        });
+
+        /* ===== OTP ===== */
+        document.getElementById("otpForm").addEventListener("submit", e => {
+            e.preventDefault();
+            document.getElementById("otpForm").style.display = "none";
+            document.getElementById("dashboard").style.display = "block";
+        });
+    </script>
+
+</body>
+
+</html>
