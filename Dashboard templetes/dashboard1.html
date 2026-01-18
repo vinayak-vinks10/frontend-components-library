@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Dashboard</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* ========== THEME ========= */
+        :root {
+            --primary: #2563eb;
+            /* Professional Blue */
+            --secondary: #0f172a;
+            /* Dark Navy */
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        body.dark {
+            --bg: #020617;
+            --card: #020617;
+            --text: #e5e7eb;
+            --muted: #94a3b8;
+            --border: #1e293b;
+        }
+
+        /* ========== RESET ========= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Inter, Segoe UI, system-ui, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            transition: .3s;
+        }
+
+        /* ========== LAYOUT ========= */
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ========== SIDEBAR ========= */
+        .sidebar {
+            width: 260px;
+            background: var(--secondary);
+            color: #fff;
+            padding: 25px;
+            transition: .3s;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 35px;
+            font-weight: 600;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #cbd5f5;
+            text-decoration: none;
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            transition: .25s;
+        }
+
+        .sidebar a i {
+            width: 18px;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, .08);
+            color: #fff;
+        }
+
+        /* ========== MAIN ========= */
+        .main {
+            flex: 1;
+            padding: 30px;
+        }
+
+        /* ========== TOPBAR ========= */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .search {
+            width: 280px;
+            padding: 12px 18px;
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            outline: none;
+            background: var(--card);
+            color: var(--text);
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 14px;
+            border-radius: 50%;
+            background: var(--card);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+        }
+
+        /* ========== CARDS ========= */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: .3s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+        }
+
+        .card h4 {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .card h1 {
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        /* ========== CHART ========= */
+        .chart {
+            margin-top: 40px;
+            background: var(--card);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .bars {
+            display: flex;
+            gap: 18px;
+            height: 220px;
+            align-items: flex-end;
+            margin-top: 25px;
+        }
+
+        .bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--primary), #1d4ed8);
+            border-radius: 10px;
+            animation: grow 1s ease;
+        }
+
+        @keyframes grow {
+            from {
+                height: 0
+            }
+        }
+
+        /* ========== TABLE ========= */
+        .table-box {
+            margin-top: 40px;
+            background: var(--card);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        th {
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        tr:hover {
+            background: rgba(37, 99, 235, .05);
+        }
+
+        /* ========== RESPONSIVE ========= */
+        @media(max-width:900px) {
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                z-index: 20;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <!-- SIDEBAR -->
+        <div class="sidebar" id="sidebar">
+            <h2>CorpDash</h2>
+            <a href="#"><i class="fa-solid fa-chart-line"></i> Overview</a>
+            <a href="#"><i class="fa-solid fa-cart-shopping"></i> Orders</a>
+            <a href="#"><i class="fa-solid fa-users"></i> Customers</a>
+            <a href="#"><i class="fa-solid fa-chart-pie"></i> Analytics</a>
+            <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+        </div>
+
+        <!-- MAIN -->
+        <div class="main">
+
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <input class="search" placeholder="Search reports, orders..." />
+                <div class="actions">
+                    <div class="btn" onclick="toggleTheme()">
+                        <i class="fa-solid fa-moon"></i>
+                    </div>
+                    <div class="btn" onclick="toggleSidebar()">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARDS -->
+            <div class="cards">
+                <div class="card">
+                    <h4>Total Orders</h4>
+                    <h1 id="orders">0</h1>
+                </div>
+                <div class="card">
+                    <h4>Total Revenue</h4>
+                    <h1 id="revenue">₹0</h1>
+                </div>
+                <div class="card">
+                    <h4>Active Customers</h4>
+                    <h1 id="customers">0</h1>
+                </div>
+                <div class="card">
+                    <h4>Pending Orders</h4>
+                    <h1 id="pending">0</h1>
+                </div>
+            </div>
+
+            <!-- CHART -->
+            <div class="chart">
+                <h3>Monthly Performance</h3>
+                <div class="bars">
+                    <div class="bar" style="height:65%"></div>
+                    <div class="bar" style="height:85%"></div>
+                    <div class="bar" style="height:55%"></div>
+                    <div class="bar" style="height:90%"></div>
+                    <div class="bar" style="height:70%"></div>
+                </div>
+            </div>
+
+            <!-- TABLE -->
+            <div class="table-box">
+                <h3 style="margin-bottom:15px;">Recent Orders</h3>
+                <table>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                    </tr>
+                    <tr>
+                        <td>#501</td>
+                        <td>Rahul Sharma</td>
+                        <td>Completed</td>
+                        <td>₹1,240</td>
+                    </tr>
+                    <tr>
+                        <td>#502</td>
+                        <td>Neha Singh</td>
+                        <td>Pending</td>
+                        <td>₹860</td>
+                    </tr>
+                    <tr>
+                        <td>#503</td>
+                        <td>Aman Verma</td>
+                        <td>Cancelled</td>
+                        <td>₹540</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function animate(id, value, prefix = "") {
+            let el = document.getElementById(id), i = 0;
+            let t = setInterval(() => {
+                i += Math.ceil(value / 40);
+                if (i >= value) { i = value; clearInterval(t); }
+                el.innerText = prefix + i;
+            }, 30);
+        }
+
+        animate("orders", 124);
+        animate("customers", 89);
+        animate("pending", 7);
+        animate("revenue", 45320, "₹");
+
+        function toggleTheme() {
+            document.body.classList.toggle("dark");
+        }
+
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+    </script>
+
+</body>
+
+</html>
