@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Foodly | Pizza Palace</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: Inter;
+            background: #f8f8f8
+        }
+
+        .header {
+            background: #fff;
+            padding: 18px 24px;
+            border-bottom: 1px solid #eaeaea
+        }
+
+        .container {
+            padding: 24px;
+            padding-bottom: 120px
+        }
+
+        .food {
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px
+        }
+
+        .add {
+            border: 1px solid #EF4F5F;
+            background: #fff;
+            color: #EF4F5F;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer
+        }
+
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-top: 1px solid #eaeaea;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h2>Pizza Palace</h2>
+        <p>⭐ 4.5 • 30 mins • Italian</p>
+    </div>
+
+    <div class="container">
+
+        <div class="food">
+            <div>
+                <h4>Margherita Pizza</h4>
+                <p>Classic cheese pizza</p>
+                <strong>₹299</strong>
+            </div>
+            <button class="add" onclick="addToCart('Margherita Pizza',299)">ADD</button>
+        </div>
+
+        <div class="food">
+            <div>
+                <h4>Farmhouse Pizza</h4>
+                <p>Veggies & mozzarella</p>
+                <strong>₹399</strong>
+            </div>
+            <button class="add" onclick="addToCart('Farmhouse Pizza',399)">ADD</button>
+        </div>
+
+    </div>
+
+    <div class="cart-bar" onclick="location.href='cart.html'">
+        <span>View Cart</span>
+        <span>₹<span id="total">0</span></span>
+    </div>
+
+    <script>
+        function getCart() {
+            return JSON.parse(localStorage.getItem("cart")) || [];
+        }
+        function saveCart(c) {
+            localStorage.setItem("cart", JSON.stringify(c));
+        }
+        function addToCart(name, price) {
+            let cart = getCart();
+            let item = cart.find(i => i.name === name);
+            if (item) { item.qty++ }
+            else { cart.push({ name, price, qty: 1 }) }
+            saveCart(cart);
+            updateTotal();
+        }
+        function updateTotal() {
+            let cart = getCart();
+            let t = cart.reduce((s, i) => s + i.price * i.qty, 0);
+            document.getElementById("total").innerText = t;
+        }
+        updateTotal();
+    </script>
+
+</body>
+
+</html>
